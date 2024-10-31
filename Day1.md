@@ -31,6 +31,7 @@
 - In Kubernetes, if we want to start a container we don't start a container directly. We start a **Pod**.
 
   _**Note**: A single **Pod** can contain one or more containers._
+  _**Note**: A **Pod** can be thought of as a logical abstraction on top of the containers._
 
   <br>
 
@@ -334,3 +335,5 @@ We can create a Kubernetes cluster in two ways:
 
 So, now our cluster is up and running. And its current state looks like this 👇
 <img width="600" alt="Screenshot_2024-06-01_at_6 13 20_AM" src="https://github.com/its-id/100x-Cohort-Programs/assets/60315832/02768715-7125-41ad-bb70-3d31f3f8dad2">
+### Summary
+<img width="938" alt="image" src="https://github.com/user-attachments/assets/1621bc5d-1e49-49a2-b9a9-9adc7ef8c10a">
