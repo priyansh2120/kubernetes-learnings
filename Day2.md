@@ -74,6 +74,7 @@
 
 - But, can we automate the process of managing the pods?
 
+
 - Yes, we can do that using `Deployments`.
 
 - A `Deployment` is a higher-level concept that manages `Pods` and `ReplicaSets`.
@@ -81,6 +82,8 @@
 - It offers the following features:
 
   - **Rollouts and Rollbacks**: allows you to update the pod with new images and rollback to the previous version if something goes wrong.
+  - **Rollout**: When rolling out a new update firstly creates a new pods for new version, if those pods are healthy, the previous version is rolled back by stopping other containers.
+  - **Rollback**: To rollback to some previous new versions.
 
   - **Scaling**: helps us scale the number of pods. Eg: starting and stopping the pods based on the load.
 
