@@ -492,3 +492,132 @@
    <br>
 
 9. Access the service using the `LoadBalancer` IP.
+
+
+#### Using Google cloud to setup GKE
+Here’s a step-by-step guide on setting up Google Cloud SDK on macOS, initializing it, and creating/stopping a Kubernetes cluster in Markdown format.
+
+Google Cloud SDK and Kubernetes Setup on macOS
+
+1. Confirm Python Version
+
+Ensure your Python version is supported (Python 3.8 to 3.13).
+
+python3 -V  # or python -V
+
+If needed, download a compatible version from Python.org.
+
+2. Download Google Cloud SDK
+
+First, check your macOS hardware by running:
+
+uname -m
+
+Choose the appropriate package to download:
+	•	macOS 64-bit (x86_64): google-cloud-cli-darwin-x86_64.tar.gz
+	•	macOS 64-bit (ARM64, Apple M1 silicon): google-cloud-cli-darwin-arm.tar.gz
+
+3. Install Google Cloud SDK
+
+	1.	Extract the downloaded .tar.gz file to a preferred location.
+	2.	To install, navigate to the extracted directory and run:
+
+./google-cloud-sdk/install.sh
+
+
+	3.	Follow the installation prompts to add gcloud to your PATH and optionally enable command completion.
+
+3.1 Configure Python for Cloud SDK (Optional)
+
+If you have multiple Python interpreters, set the environment variable CLOUDSDK_PYTHON to your preferred interpreter path:
+
+export CLOUDSDK_PYTHON=/usr/bin/python3
+
+4. Initialize Google Cloud SDK
+
+	1.	Open a new terminal window to refresh environment settings.
+	2.	Run the initialization command:
+
+./google-cloud-sdk/bin/gcloud init
+
+Follow the prompts to log in, select a project, and set a default region.
+
+4.1 Configure for Screen Readers (Optional)
+
+Enable screen reader mode for accessibility:
+
+gcloud config set accessibility/screen_reader true
+
+5. Basic gcloud Commands
+
+	•	List authenticated accounts:
+
+gcloud auth list
+
+
+	•	List active configuration properties:
+
+gcloud config list
+
+
+	•	View installation info:
+
+gcloud info
+
+
+
+6. Install the gke-gcloud-auth-plugin for Kubernetes
+
+To interact with Google Kubernetes Engine (GKE) clusters, install the gke-gcloud-auth-plugin.
+	1.	Update Cloud SDK components:
+
+gcloud components update
+
+
+	2.	Install the GKE authentication plugin:
+
+gcloud components install gke-gcloud-auth-plugin
+
+
+	3.	Set the required environment variable:
+
+export USE_GKE_GCLOUD_AUTH_PLUGIN=True
+
+
+
+7. Add Google Cloud SDK to PATH
+
+	1.	Add the SDK path to your shell profile for easy access to gcloud commands:
+
+export PATH=$PATH:/Users/your-username/Downloads/google-cloud-sdk/bin
+
+
+	2.	Reload your profile file (~/.bashrc or ~/.zshrc) for the change to take effect.
+
+8. Creating a Kubernetes Cluster
+
+	1.	Authenticate with GKE:
+
+gcloud container clusters get-credentials my-cluster --zone us-central1-a
+
+
+	2.	Create a Kubernetes Deployment:
+
+kubectl create deployment nginx --image=nginx
+
+
+
+9. Stopping and Deleting the Kubernetes Cluster
+
+	1.	Delete the Kubernetes Deployment:
+
+kubectl delete deployment nginx
+
+
+	2.	Delete the GKE Cluster:
+
+gcloud container clusters delete my-cluster --zone us-central1-a
+
+
+
+This documentation covers everything from setting up Google Cloud SDK to deploying and stopping a Kubernetes cluster on macOS.
