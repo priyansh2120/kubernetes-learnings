@@ -494,130 +494,151 @@
 9. Access the service using the `LoadBalancer` IP.
 
 
-#### Using Google cloud to setup GKE
-Here’s a step-by-step guide on setting up Google Cloud SDK on macOS, initializing it, and creating/stopping a Kubernetes cluster in Markdown format.
+# Google Kubernetes Engine (GKE) Setup Guide
 
-Google Cloud SDK and Kubernetes Setup on macOS
+A comprehensive guide for setting up Google Cloud SDK and creating a Kubernetes cluster on macOS.
 
-1. Confirm Python Version
+## Table of Contents
+- [Prerequisites](#prerequisites)
+- [Installation](#installation)
+- [Configuration](#configuration)
+- [Creating a Kubernetes Cluster](#creating-a-kubernetes-cluster)
+- [Cleanup](#cleanup)
+- [Troubleshooting](#troubleshooting)
 
-Ensure your Python version is supported (Python 3.8 to 3.13).
+## Prerequisites
 
-python3 -V  # or python -V
+Before you begin, ensure you have:
+- macOS operating system
+- Python 3.8 to 3.13 installed
+- Active Google Cloud account
+- Stable internet connection
 
-If needed, download a compatible version from Python.org.
+## Installation
 
-2. Download Google Cloud SDK
-
-First, check your macOS hardware by running:
-
+### 1. Check System Architecture
+```bash
 uname -m
+```
+This will help determine which SDK version to download:
+- `x86_64`: Intel-based Mac
+- `arm64`: Apple Silicon (M1/M2) Mac
 
-Choose the appropriate package to download:
-	•	macOS 64-bit (x86_64): google-cloud-cli-darwin-x86_64.tar.gz
-	•	macOS 64-bit (ARM64, Apple M1 silicon): google-cloud-cli-darwin-arm.tar.gz
+### 2. Install Google Cloud SDK
 
-3. Install Google Cloud SDK
+Download the appropriate package based on your architecture:
+- Intel Mac: `google-cloud-cli-darwin-x86_64.tar.gz`
+- Apple Silicon: `google-cloud-cli-darwin-arm.tar.gz`
 
-	1.	Extract the downloaded .tar.gz file to a preferred location.
-	2.	To install, navigate to the extracted directory and run:
+Extract and install:
+```bash
+# Extract the downloaded archive
+tar -xf google-cloud-cli-darwin-*.tar.gz
 
+# Run the installer
 ./google-cloud-sdk/install.sh
+```
 
-
-	3.	Follow the installation prompts to add gcloud to your PATH and optionally enable command completion.
-
-3.1 Configure Python for Cloud SDK (Optional)
-
-If you have multiple Python interpreters, set the environment variable CLOUDSDK_PYTHON to your preferred interpreter path:
-
-export CLOUDSDK_PYTHON=/usr/bin/python3
-
-4. Initialize Google Cloud SDK
-
-	1.	Open a new terminal window to refresh environment settings.
-	2.	Run the initialization command:
-
-./google-cloud-sdk/bin/gcloud init
-
-Follow the prompts to log in, select a project, and set a default region.
-
-4.1 Configure for Screen Readers (Optional)
-
-Enable screen reader mode for accessibility:
-
-gcloud config set accessibility/screen_reader true
-
-5. Basic gcloud Commands
-
-	•	List authenticated accounts:
-
-gcloud auth list
-
-
-	•	List active configuration properties:
-
-gcloud config list
-
-
-	•	View installation info:
-
-gcloud info
-
-
-
-6. Install the gke-gcloud-auth-plugin for Kubernetes
-
-To interact with Google Kubernetes Engine (GKE) clusters, install the gke-gcloud-auth-plugin.
-	1.	Update Cloud SDK components:
-
+### 3. Install GKE Auth Plugin
+```bash
 gcloud components update
-
-
-	2.	Install the GKE authentication plugin:
-
 gcloud components install gke-gcloud-auth-plugin
+```
 
+## Configuration
 
-	3.	Set the required environment variable:
+### 1. Initialize Google Cloud SDK
+```bash
+gcloud init
+```
 
+### 2. Configure Environment Variables
+Add these to your `~/.zshrc` or `~/.bashrc`:
+```bash
+export PATH=$PATH:/Users/your-username/google-cloud-sdk/bin
 export USE_GKE_GCLOUD_AUTH_PLUGIN=True
+export CLOUDSDK_PYTHON=/usr/bin/python3  # Optional: if multiple Python versions exist
+```
 
+### 3. Verify Installation
+```bash
+gcloud auth list
+gcloud config list
+gcloud info
+```
 
+## Creating a Kubernetes Cluster
 
-7. Add Google Cloud SDK to PATH
+### 1. Create a GKE Cluster
+```bash
+# Set your desired zone
+gcloud config set compute/zone us-central1-a
 
-	1.	Add the SDK path to your shell profile for easy access to gcloud commands:
+# Create a cluster
+gcloud container clusters create my-cluster \
+    --num-nodes=3 \
+    --machine-type=e2-medium
+```
 
-export PATH=$PATH:/Users/your-username/Downloads/google-cloud-sdk/bin
-
-
-	2.	Reload your profile file (~/.bashrc or ~/.zshrc) for the change to take effect.
-
-8. Creating a Kubernetes Cluster
-
-	1.	Authenticate with GKE:
-
+### 2. Configure kubectl
+```bash
 gcloud container clusters get-credentials my-cluster --zone us-central1-a
+```
 
-
-	2.	Create a Kubernetes Deployment:
-
+### 3. Deploy a Sample Application
+```bash
 kubectl create deployment nginx --image=nginx
+kubectl expose deployment nginx --port=80 --type=LoadBalancer
+```
 
+## Cleanup
 
+Remove resources when no longer needed:
 
-9. Stopping and Deleting the Kubernetes Cluster
-
-	1.	Delete the Kubernetes Deployment:
-
+```bash
+# Delete the sample deployment
 kubectl delete deployment nginx
+kubectl delete service nginx
 
-
-	2.	Delete the GKE Cluster:
-
+# Delete the cluster
 gcloud container clusters delete my-cluster --zone us-central1-a
+```
 
+## Troubleshooting
 
+### Common Issues
 
-This documentation covers everything from setting up Google Cloud SDK to deploying and stopping a Kubernetes cluster on macOS.
+1. **Python Version Mismatch**
+   ```bash
+   python3 -V  # Check version
+   # Install appropriate version if needed
+   ```
+
+2. **Authentication Issues**
+   ```bash
+   gcloud auth login  # Re-authenticate
+   ```
+
+3. **Path Issues**
+   ```bash
+   source ~/.zshrc  # or ~/.bashrc
+   # Verify PATH includes SDK
+   echo $PATH
+   ```
+
+### Accessibility Options
+
+Enable screen reader support:
+```bash
+gcloud config set accessibility/screen_reader true
+```
+
+## Additional Resources
+
+- [Official Google Cloud Documentation](https://cloud.google.com/sdk/docs)
+- [GKE Documentation](https://cloud.google.com/kubernetes-engine/docs)
+- [Kubernetes Documentation](https://kubernetes.io/docs/home/)
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
