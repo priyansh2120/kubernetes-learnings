@@ -178,6 +178,7 @@ So, the steps to start a complete Kubernetes service are:
 ## Namespaces
 
 - **It is a way to divide cluster resources between multiple users.**
+- **If we change the name or namespace in metadata, instead of updating old deployments, it creates new one altogether without effecting other one.**
 
   <br>
 
