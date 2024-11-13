@@ -167,6 +167,8 @@ So, the steps to start a complete Kubernetes service are:
 
   **Note**: We only create the `ingress`, not the `ingress controller` (just like we can create a `deployment`, but not a `deployment controller`).
 
+  **Note**: Ingress is kind of a load-balancer i.e. automatically created and functions as load balancer when we create ingress controller.
+
   <br>
 
 - Before that, we need to understand the concept of `Namespaces`.
