@@ -1,4 +1,4 @@
-# Kubernetes Part 2
+# Kubernetes Day3
 
 ## Quick Recap
 
